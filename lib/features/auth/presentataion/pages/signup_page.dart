@@ -10,6 +10,16 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Sign up.', style: TextStyle(
+            fontSize: 50,
+            fontWeight: FontWeight.bold
+          ),)
+        ],
+      ),
+    );
   }
 }
