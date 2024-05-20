@@ -1,8 +1,10 @@
 import 'package:blog_app/core/theme/app_theme.dart';
+import 'package:blog_app/features/auth/presentataion/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentataion/pages/login_page.dart';
+import 'package:blog_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-// ignore: depend_on_referenced_packages
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart' show dotenv;
 
 void main() async {
@@ -10,14 +12,13 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
 
-  final url = dotenv.env['SUPA_BASE_URL'];
-  final anonKey = dotenv.env['anon_key'];
+//initialize dependcies.
+  initDependencies();
 
-  final supabase = await Supabase.initialize(
-    url: url!,
-    anonKey: anonKey!,
-  );
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(
+    providers: [BlocProvider(create: (_) => serviceLocator<AuthBloc>())],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

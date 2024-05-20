@@ -5,8 +5,7 @@ import 'package:blog_app/features/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class SigninPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const SignupPage()); 
-
+  static route() => MaterialPageRoute(builder: (context) => const SignupPage());
 
   const SigninPage({Key? key}) : super(key: key);
 
@@ -15,13 +14,11 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-    final formKey = GlobalKey<FormState>();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
-
-    @override
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -30,13 +27,8 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
-      appBar: AppBar(
-      
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(
@@ -54,6 +46,7 @@ class _SigninPageState extends State<SigninPage> {
               AuthField(
                 hintText: 'Email',
                 controller: emailController,
+                isObscureText: false,
               ),
               const SizedBox(
                 height: 16,
@@ -61,8 +54,9 @@ class _SigninPageState extends State<SigninPage> {
               AuthField(
                 hintText: 'Passowrd',
                 controller: passwordController,
+                isObscureText: true,
               ),
-                    const SizedBox(height: 20),
+              const SizedBox(height: 20),
               AuthGradientButton(
                 buttonText: 'Sign in',
                 onPressed: () {},

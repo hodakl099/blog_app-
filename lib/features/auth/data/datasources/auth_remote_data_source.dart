@@ -38,6 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       return response.user!.id;
     } catch (e) {
+      print('here is the error : ${e.toString()}');
       throw ServerExceptions(e.toString());
     }
   }

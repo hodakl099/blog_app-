@@ -1,11 +1,12 @@
 import 'package:blog_app/core/theme/app_pallete.dart';
+import 'package:blog_app/features/auth/presentataion/bloc/auth_bloc.dart';
 import 'package:blog_app/features/widgets/auth_field.dart';
 import 'package:blog_app/features/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const SignupPage()); 
-
+  static route() => MaterialPageRoute(builder: (context) => const SignupPage());
 
   const SignupPage({Key? key}) : super(key: key);
 
@@ -23,6 +24,7 @@ class _SignupPageState extends State<SignupPage> {
 
     return Scaffold(
       appBar: AppBar(),
+      resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(
@@ -40,6 +42,7 @@ class _SignupPageState extends State<SignupPage> {
               AuthField(
                 hintText: 'Name',
                 controller: nameController,
+                isObscureText: false,
               ),
               const SizedBox(
                 height: 16,
@@ -47,6 +50,7 @@ class _SignupPageState extends State<SignupPage> {
               AuthField(
                 hintText: 'Email',
                 controller: emailController,
+                isObscureText: false,
               ),
               const SizedBox(
                 height: 16,
@@ -54,15 +58,23 @@ class _SignupPageState extends State<SignupPage> {
               AuthField(
                 hintText: 'Passowrd',
                 controller: passwordController,
+                isObscureText: true,
               ),
-                    const SizedBox(height: 20),
+              const SizedBox(height: 20),
               AuthGradientButton(
                 buttonText: 'Sign up',
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<AuthBloc>().add(AuthSignUp(
+                        name: nameController.text.trim(),
+                        email: emailController.text.trim(),
+                        passowrd: passwordController.text.trim()));
+                  }
+                },
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () => Navigator.push(context ,SignupPage.route()),
+                onTap: () => Navigator.push(context, SignupPage.route()),
                 child: RichText(
                     text: TextSpan(
                         text: 'Already have an account?',
