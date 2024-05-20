@@ -13,7 +13,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
 //initialize dependcies.
-  initDependencies();
+  await initDependencies();
 
   runApp(MultiBlocProvider(
     providers: [BlocProvider(create: (_) => serviceLocator<AuthBloc>())],

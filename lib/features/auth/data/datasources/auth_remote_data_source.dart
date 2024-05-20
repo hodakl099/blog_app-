@@ -1,4 +1,5 @@
 import 'package:blog_app/core/error/exceptions.dart';
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
@@ -30,6 +31,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       required String email,
       required String password}) async {
     try {
+      debugPrint('check if called}');
       final response = await supabaseClient.auth
           .signUp(email: email, password: password, data: {'name': name});
 
@@ -38,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       return response.user!.id;
     } catch (e) {
-      print('here is the error : ${e.toString()}');
+      debugPrint('here is the error : ${e.toString()}');
       throw ServerExceptions(e.toString());
     }
   }

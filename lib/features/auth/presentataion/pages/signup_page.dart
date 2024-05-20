@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SignupPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => const SignupPage());
 
-  const SignupPage({Key? key}) : super(key: key);
+  const SignupPage({super.key});
 
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -64,6 +64,8 @@ class _SignupPageState extends State<SignupPage> {
               AuthGradientButton(
                 buttonText: 'Sign up',
                 onPressed: () {
+                  debugPrint('test click sign up');
+
                   if (formKey.currentState!.validate()) {
                     context.read<AuthBloc>().add(AuthSignUp(
                         name: nameController.text.trim(),
