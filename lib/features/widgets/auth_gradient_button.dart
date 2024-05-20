@@ -29,7 +29,8 @@ import 'package:flutter/material.dart';
     ),child: Text(buttonText, style: const TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w600,
-          ),)),
+            color: Colors.white
+          ).copyWith(),)),
     );
   }
 }
