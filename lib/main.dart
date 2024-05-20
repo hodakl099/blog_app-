@@ -6,12 +6,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' show dotenv;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: ".env");
 
   final url = dotenv.env['SUPA_BASE_URL'];
   final anonKey = dotenv.env['anon_key'];
 
-  final supabase =  await Supabase.initialize(
+  final supabase = await Supabase.initialize(
     url: url!,
     anonKey: anonKey!,
   );
