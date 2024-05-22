@@ -10,11 +10,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : _userSignUp = userSignUp,
         super(AuthInitial()) {
     on<AuthSignUp>((event, emit) async {
+      emit(AuthLoading());
       final res = await _userSignUp.authRepository.singUpWithEmailPassword(
           name: event.name, email: event.email, password: event.passowrd);
 
       res.fold((error) => emit(AuthFailure(message: error.message)),
-          (uid) => emit(AuthSuccess(uid: uid)));
+          (user) => emit(AuthSuccess(uid: user.id)));
     });
   }
 }
