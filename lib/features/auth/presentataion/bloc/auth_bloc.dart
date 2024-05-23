@@ -1,3 +1,6 @@
+import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
+import 'package:blog_app/features/auth/domain/usecases/user_log_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,16 +9,53 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUpuseCase _userSignUp;
-  AuthBloc({required UserSignUpuseCase userSignUp})
+  final UserLogInuseCase _userLogIn;
+  final GetCurrentUserUseCase _getCurrentUserUseCase;
+  AuthBloc(
+      {required UserSignUpuseCase userSignUp,
+      required UserLogInuseCase userLogIn,
+      required GetCurrentUserUseCase getCurrentUserUseCase})
       : _userSignUp = userSignUp,
+        _userLogIn = userLogIn,
+        _getCurrentUserUseCase = getCurrentUserUseCase,
         super(AuthInitial()) {
-    on<AuthSignUp>((event, emit) async {
-      emit(AuthLoading());
-      final res = await _userSignUp.authRepository.singUpWithEmailPassword(
-          name: event.name, email: event.email, password: event.passowrd);
+    on<AuthEvent>((_, emit) => emit(AuthLoading()));
+    on<AuthSignUp>(_onAuthSignUp);
+    on<AuthLogIn>(_onAuthLogIn);
+    on<IsUserLoggedIn>(_isUserLoggedIn);
+  }
 
-      res.fold((error) => emit(AuthFailure(message: error.message)),
-          (user) => emit(AuthSuccess(uid: user.id)));
-    });
+  void _isUserLoggedIn(IsUserLoggedIn event, Emitter<AuthState> emit) async {
+    final res = await _getCurrentUserUseCase.authRepository.getCurrentUser();
+
+    res.fold((error) => emit(AuthFailure(message: error.message)),
+        (user) => emit(AuthSuccess(user: user)));
+  }
+
+  void _onAuthSignUp(AuthSignUp event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final res = await _userSignUp.authRepository.singUpWithEmailPassword(
+      name: event.name,
+      email: event.email,
+      password: event.passowrd,
+    );
+
+    res.fold(
+      (error) => emit(AuthFailure(message: error.message)),
+      (user) => emit(AuthSuccess(user: user)),
+    );
+  }
+
+  void _onAuthLogIn(AuthLogIn event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final res = await _userLogIn.authRepository.loginWithEmailPassword(
+      email: event.email,
+      password: event.password,
+    );
+
+    res.fold(
+      (error) => emit(AuthFailure(message: error.message)),
+      (user) => emit(AuthSuccess(user: user)),
+    );
   }
 }

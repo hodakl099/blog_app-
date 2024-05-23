@@ -8,4 +8,6 @@ abstract interface class AuthRepository {
 
   Future<Either<Failure, User>> singUpWithEmailPassword(
       {required String name, required String email, required String password});
+
+  Future<Either<Failure, User>> getCurrentUser();
 }
