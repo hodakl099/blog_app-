@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const SignupPage());
+  static route() => MaterialPageRoute(
+        builder: (context) => const SignupPage(),
+      );
 
   const SignupPage({super.key});
 
@@ -18,13 +20,21 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final nameController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(),
       resizeToAvoidBottomInset: true,
@@ -84,14 +94,13 @@ class _SignupPageState extends State<SignupPage> {
                         context.read<AuthBloc>().add(AuthSignUp(
                             name: nameController.text.trim(),
                             email: emailController.text.trim(),
-                            passowrd: passwordController.text.trim()));
+                            password: passwordController.text.trim()));
                       }
                     },
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () => Navigator.pushAndRemoveUntil(
-                        context, SigninPage.route(), (route) => false),
+                    onTap: () => Navigator.push(context, SigninPage.route()),
                     child: RichText(
                         text: TextSpan(
                             text: 'Already have an account?',

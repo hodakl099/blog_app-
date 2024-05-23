@@ -1,3 +1,4 @@
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_repository.dart';
@@ -13,6 +14,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
+//core
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
+
   _initAuthDependncy();
 
   final url = dotenv.env['SUPA_BASE_URL'];
@@ -39,8 +43,12 @@ void _initAuthDependncy() {
     ..registerFactory(() => UserSignUpuseCase(serviceLocator()))
     ..registerFactory(() => UserLogInuseCase(serviceLocator()))
     ..registerFactory(() => GetCurrentUserUseCase(serviceLocator()))
-    ..registerFactory(() => AuthBloc(
+    ..registerLazySingleton(
+      () => AuthBloc(
         userSignUp: serviceLocator(),
-        userLogIn: serviceLocator(),
-        getCurrentUserUseCase: serviceLocator()));
+        userLogin: serviceLocator(),
+        currentUser: serviceLocator(),
+        appUserCubit: serviceLocator(),
+      ),
+    );
 }

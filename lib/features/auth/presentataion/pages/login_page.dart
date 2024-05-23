@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SigninPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const SigninPage());
+  static route() => MaterialPageRoute(
+        builder: (context) => const SigninPage(),
+      );
 
   const SigninPage({Key? key}) : super(key: key);
 
@@ -40,7 +42,8 @@ class _SigninPageState extends State<SigninPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             } else if (state is AuthSuccess) {
-              showSnackBar(context, 'you are signed in successfully');
+              showSnackBar(
+                  context, 'here is log in response ${state.user.email}');
             }
           },
           builder: (context, state) {
