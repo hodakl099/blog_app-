@@ -1,6 +1,7 @@
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_log_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog_app/features/auth/presentataion/bloc/auth_bloc.dart';
@@ -34,9 +35,12 @@ void _initAuthDependncy() {
 //repository
     ..registerFactory<AuthRepository>(
         () => AuthRepositoryImpl(serviceLocator()))
-    //user sign up use case.
+    //user auth use case.
     ..registerFactory(() => UserSignUpuseCase(serviceLocator()))
     ..registerFactory(() => UserLogInuseCase(serviceLocator()))
-    ..registerFactory(() =>
-        AuthBloc(userSignUp: serviceLocator(), userLogIn: serviceLocator()));
+    ..registerFactory(() => GetCurrentUserUseCase(serviceLocator()))
+    ..registerFactory(() => AuthBloc(
+        userSignUp: serviceLocator(),
+        userLogIn: serviceLocator(),
+        getCurrentUserUseCase: serviceLocator()));
 }
