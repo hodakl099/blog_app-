@@ -19,10 +19,10 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (_) => serviceLocator<AuthBloc>(),
+        create: (_) => serviceLocator<AppUserCubit>(),
       ),
       BlocProvider(
-        create: (_) => serviceLocator<AppUserCubit>(),
+        create: (_) => serviceLocator<AuthBloc>(),
       ),
     ],
     child: const MyApp(),
@@ -39,8 +39,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    super.initState();
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+    super.initState();
   }
 
   @override
@@ -54,17 +54,14 @@ class _MyAppState extends State<MyApp> {
           return state is AppUserLoggedIn;
         },
         builder: (context, isLoggedIn) {
-          print('isLoggedIn in builder: $isLoggedIn');
-
           if (isLoggedIn) {
             return const Scaffold(
               body: Center(
                 child: Text('User Logged in'),
               ),
             );
-          } else {
-            return const SignupPage();
           }
+          return const SignupPage();
         },
       ),
     );

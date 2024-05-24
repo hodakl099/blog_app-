@@ -14,9 +14,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
-//core
-  serviceLocator.registerLazySingleton(() => AppUserCubit());
-
   _initAuthDependncy();
 
   final url = dotenv.env['SUPA_BASE_URL'];
@@ -28,6 +25,10 @@ Future<void> initDependencies() async {
   );
 
   serviceLocator.registerLazySingleton(() => supabase.client);
+
+  serviceLocator.registerLazySingleton(
+    () => AppUserCubit(),
+  );
 }
 
 void _initAuthDependncy() {

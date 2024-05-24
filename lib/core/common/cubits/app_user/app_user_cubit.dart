@@ -13,12 +13,5 @@ class AppUserCubit extends Cubit<AppUserState> {
     } else {
       emit(AppUserLoggedIn(user));
     }
-
-    @override
-    void onChange(Change<AppUserState> change) {
-      print(
-          'here is the on change app user cubit, current :  ${change.currentState}, next state : ${change.nextState}');
-      super.onChange(change);
-    }
   }
 }

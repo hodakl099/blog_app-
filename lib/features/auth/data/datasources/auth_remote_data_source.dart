@@ -13,13 +13,12 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
-
-  Future<UserModel?> getCurrentUser();
+  Future<UserModel?> getCurrentUserData();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
-  const AuthRemoteDataSourceImpl(this.supabaseClient);
+  AuthRemoteDataSourceImpl(this.supabaseClient);
 
   @override
   Session? get currentUserSession => supabaseClient.auth.currentSession;
@@ -71,7 +70,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel?> getCurrentUser() async {
+  Future<UserModel?> getCurrentUserData() async {
     try {
       if (currentUserSession != null) {
         final userData = await supabaseClient.from('profiles').select().eq(
