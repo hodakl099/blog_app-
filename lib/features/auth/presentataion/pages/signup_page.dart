@@ -3,8 +3,8 @@ import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/auth/presentataion/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentataion/pages/login_page.dart';
-import 'package:blog_app/features/widgets/auth_field.dart';
-import 'package:blog_app/features/widgets/auth_gradient_button.dart';
+import 'package:blog_app/features/auth/presentataion/widgets/auth_field.dart';
+import 'package:blog_app/features/auth/presentataion/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
